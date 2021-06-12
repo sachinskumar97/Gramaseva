@@ -1,0 +1,73 @@
+{% extends 'myapp/user_base.html' %}
+{% load static %}
+{% block title %}Tax Details List{% endblock %}
+{% block body %}
+<center>
+     <form id="payment_id"  role="form" action="{% url 'user_tax_payment' %}" method="post">
+            {% csrf_token %}
+          <input type="hidden" name="tax_id" value="{{ product.id }}" >
+          <input type="hidden" name="status" id="status" value="" >
+
+    </form>
+
+    <h2><font color="#366092">Tax List</font></h2><hr/>
+
+    <h2><font color="#366092">Title : {{ product.houseno}}</font></h2>
+    <h2><font color="#366092">Amount : {{ product.amount}}</font></h2>
+
+    <div class="container">
+    <button id="rzp-button1" >Pay</button>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</div>
+    <script>
+var pform = document.getElementById('payment_id');
+var statusInput = document.getElementById('status');
+
+var options = {
+    "key": "{{ api_key }}",
+    "amount": "{{ amt }}",
+    "currency": "INR",
+    "name": "Gramaseva App",
+    "description": "{{ tax_item.title }}",
+    "image": "https://example.com/your_logo",
+    "order_id": "{{ order_id }}",
+    "handler": function (response){
+<!--        alert(response.razorpay_payment_id);-->
+<!--        alert(response.razorpay_order_id);-->
+<!--        alert(response.razorpay_signature)-->
+        statusInput.value = "Payment Success";
+        pform.submit();
+    },
+    "prefill": {
+        "name": "Gaurav Kumar",
+        "email": "gaurav.kumar@example.com",
+        "contact": "9999999999"
+    },
+    "notes": {
+        "address": "Razorpay Corporate Office"
+    },
+    "theme": {
+        "color": "#3399cc"
+    }
+};
+var rzp1 = new Razorpay(options);
+rzp1.on('payment.failed', function (response){
+<!--        alert(response.error.code);-->
+<!--        alert(response.error.description);-->
+<!--        alert(response.error.source);-->
+<!--        alert(response.error.step);-->
+<!--        alert(response.error.reason);-->
+<!--        alert(response.error.metadata.order_id);-->
+<!--        alert(response.error.metadata.payment_id);-->
+
+statusInput.value = "Payment Failed"
+        pform.submit();
+});
+document.getElementById('rzp-button1').onclick = function(e){
+  rzp1.open();
+  e.preventDefault();
+}
+
+</script>
+</center>
+{% endblock %}

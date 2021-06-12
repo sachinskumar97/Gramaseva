@@ -1,0 +1,7 @@
+<label for="district_id">District</label>
+<select  name="district_id" id="district_id" class="form-control" onchange="loadBlock()">
+    <option value="0">Select District</option>
+    {% for d in district_list%}
+    <option value="{{d.id}}">{{d.district_name}}({{d.district_code}})</option>
+    {% endfor %}
+</select>

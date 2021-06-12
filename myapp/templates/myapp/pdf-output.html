@@ -1,0 +1,69 @@
+<html>
+<head>
+    <title>PDF Output</title>
+    <style>
+@page{
+    size: A4 Landscape;
+    margin: 2.5cm 1.5cm 3.5cm 1.5cm;
+
+
+<!--    @top-center{-->
+<!--    content: "Tax Collection";-->
+<!--    }-->
+    @bottom-right{
+           content: "Page "counter(page)" of " counter(pages);
+    }
+    };
+    td{
+    padding:20px
+    }
+
+    </style>
+</head>
+<body>
+<h2 style="padding:6px; margin-bottom:10px;text-align: center; font-weight:bold">Tax Details</h2>
+<table class="table table-striped table-bordered">
+            <thead class="thead">
+            <tr style=" padding: 10px; background-color: #a5a5d9;">
+                <th style="padding:6px; margin:0;text-align: center; ">No</th>
+                <th style="padding:6px; margin:0;text-align: center; ">Name</th>
+                <th style="padding:6px; margin:0;text-align: center; ">Address</th>
+                <th style="padding:6px; margin:0;text-align: center; ">Ward No</th>
+                <th style="padding:6px; margin:0;text-align: center; ">House No</th>
+                <th style="padding:6px; margin:0;text-align: center; ">Contact</th>
+                <th style="padding:6px; margin:0;text-align: center; ">Email</th>
+                <th style="padding:6px; margin:0;text-align: center; ">Date/Time</th>
+                <th style="padding:6px; margin:0;text-align: center; ">Amount</th>
+                <th style="padding:6px; margin:0;text-align: center; ">Status</th>
+
+            </tr>
+            </thead>
+
+          <tbody>
+        {% for c in tax_list %}
+
+        <tr class="info ">
+            <td style="padding:6px; margin:0;text-align: center; background-color : #def2bc">{{ forloop.counter }}</td>
+            {% for u in user_list %}
+                {% if c.user_id == u.user_id%}
+                <td style="padding:6px; margin:0;text-align: center; background-color : #def2bc">{{ u.fname }} {{ u.lname }}</td>
+                <td style="padding:6px; margin:0;text-align: center; background-color : #def2bc">{{ u.addr }},{{ u.pin }}</td>
+                <td style="padding:6px; margin:0;text-align: center; background-color : #def2bc">{{ u.ward_no }}</td>
+                <td style="padding:6px; margin:0;text-align: center; background-color : #def2bc">{{ u.house_no }}</td>
+                <td style="padding:6px; margin:0;text-align: center; background-color : #def2bc">{{ u.contact }}</td>
+                <td style="padding:6px; margin:0;text-align: center; background-color : #def2bc">{{ u.email }}</td>
+            {% endif %}
+            {% endfor %}
+            <!--This is title-->
+            <td style="padding:6px; margin:0;text-align: center; background-color : #def2bc">{{ c.dt }}/{{ c.tm }}</td>
+            <td style="padding:6px; margin:0;text-align: center; background-color : #def2bc">{{ c.amount }}</td>
+            <td style="padding:6px; margin:0;text-align: center; background-color : #def2bc">{{ c.status }}</td>
+
+
+        </tr>
+
+        {% endfor %}
+       </tbody>
+        </table>
+</body>
+</html>

@@ -1,0 +1,136 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block title %}New User Registration{% endblock %}
+{% block body %}
+<center>
+    <h2>New User Registration</h2>
+	<div class="container">
+    <form role="form" name="frm" action="{% url 'user_details_add' %}" method="post">
+        {% csrf_token %}
+        <div class="form-group">
+			<label for="fname">Name</label>
+	        <input class="form-control" type="text"  id="fname" title="only alphabet with space is allowed" name="fname" pattern="[a-zA-Z ]+" oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();}" placeholder="First Name" required>
+			<input class="form-control" type="text"  id="lname" title="only alphabet with space is allowed" name="lname" pattern="[a-zA-Z ]+" oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();}" placeholder="Last Name" required>
+		</div>
+	    <div class="form-group">
+            <label>Gender :</label>
+			<div class="custom-control custom-radio custom-control-inline">
+  				<input type="radio" class="custom-control-input" id="gender1" name="gender" value="Male" required>
+  				<label class="custom-control-label" for="gender1">Male</label>
+			</div>
+			<div class="custom-control custom-radio custom-control-inline">
+  				<input type="radio" class="custom-control-input" id="gender2" name="gender" value="Female">
+  				<label class="custom-control-label" for="gender2">Female</label>
+			</div>
+		</div>
+        <div class="form-group">
+			<label for="dob">DOB</label>
+	        <input type="date"  class="form-control" id="dob" name="dob" required>
+		</div>
+		<div class="form-group" id="div1">
+                <label for="state_id">State</label>
+                <select  name="state_id" id="state_id" class="form-control" onclick="loadDistrict()">
+                    <option value="0">Select State</option>
+                    {% for s in state_list%}
+                        <option value="{{s.id}}">{{s.state_name}}({{s.state_code}})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group" id="div2">
+                <label for="district_id">District</label>
+                <select  name="district_id" id="district_id" class="form-control" onchange="loadBlock()">
+                    <option value="0">Select District</option>
+                </select>
+            </div>
+            <div class="form-group" id="div3">
+                <label for="block_id">Block</label>
+                <select  name="block_id" id="block_id" class="form-control" onchange="loadPanchayat()">
+                    <option value="0">Select Block</option>
+                </select>
+            </div>
+			<div class="form-group" id="div4">
+                <label for="panchayat_id">Panchayat</label>
+                <select  name="panchayat_id" id="panchayat_id" class="form-control" >
+                    <option value="0">Select Panchayat</option>
+                </select>
+            </div>
+	    	<div class="form-group">
+			<label for="addr">Address</label>
+	        <input class="form-control" type="text"  id="addr" name="addr" placeholder="Street" >
+            <input class="form-control" type="text" name="pin" id="pin" value="" pattern="[0-9]{6}" placeholder="PINCODE" maxlength="6" oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();} " required >
+		</div>
+		<div class="form-group">
+			<label for="ward_no">Ward No</label>
+	        <input type="text"  class="form-control" id="ward_no" name="ward_no" placeholder="Enter Ward No" required>
+		</div>
+		<div class="form-group">
+			<label for="house_no">House No</label>
+	        <input type="text"  class="form-control" id="house_no" name="house_no" placeholder="Enter House No" required>
+		</div>
+	    <div class="form-group">
+			<label for="contact">Phone No</label>
+	        <input type="text"  class="form-control" id="contact" name="contact" title="Please enter a valid phone number with 10 digit" pattern="^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$" maxlength="10" oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();}"  placeholder="Phone number" required>
+		</div>
+		<div class="form-group">
+			<label for="email">Email</label>
+	        <input type="email" class="form-control" id="email" name="email" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$" placeholder="Email Address" required oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();}"></td>
+		</div>
+		<div class="form-group">
+			<label for="aadhaar_no">Aadhaar No</label>
+	        <input type="text" class="form-control" id="aadhaar_no" name="aadhaar_no" pattern="[0-9]{12}" maxlength="12" placeholder="Enter Aadhaar No " required oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();}"></td>
+		</div>
+        <div class="form-group">
+			<label for="pwd">password</label>
+	        <input type="password" class="form-control" id="pwd" name="pwd"></td>
+		</div>
+	    <button type="submit" class="btn btn-info" id="bt" name="bt">Register</button>
+        <button type="reset" class="btn btn-info" id="rt" name="rt">Reset</button>
+	    </table>
+    </form>
+	{{msg}}
+	</div>
+</center>
+<script>
+function loadDistrict() {
+  var sel = document.getElementById('state_id');
+  //alert(sel.value)
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if ( this.status == 200) {
+      document.getElementById("div2").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", "../myapp/district_list_view?state_id="+sel.value, true);
+  xhttp.send();
+}
+function loadBlock() {
+  var sel = document.getElementById('district_id');
+  //alert('block'+sel.value)
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if ( this.status == 200) {
+      document.getElementById("div3").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", "../myapp/block_list_view?district_id="+sel.value, true);
+  xhttp.send();
+}
+function loadPanchayat() {
+  var sel = document.getElementById('block_id');
+  //alert('block'+sel.value)
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if ( this.status == 200) {
+      document.getElementById("div4").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", "../myapp/panchayat_list_view?block_id="+sel.value, true);
+  xhttp.send();
+}
+
+</script>
+
+{% endblock %}

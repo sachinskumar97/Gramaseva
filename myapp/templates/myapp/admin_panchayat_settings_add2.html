@@ -1,0 +1,120 @@
+{% extends 'myapp/admin_base.html' %}
+{% load static %}
+{% block title %}Block Panchayat Add{% endblock %}
+{% block body %}
+<center>
+    <h1>Block Panchayat Add</h1>
+     <div class="container">
+        <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+
+        <form role="form" name="frm" action="{% url 'admin_panchayat_settings_add2'%}" method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="panchayat_name">Block Panchayat Name :</label>
+                <input class="form-control" type="text" name="panchayat_name" id="panchayat_name" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="panchayat_code">Panchayat Code :</label>
+                <input class="form-control" type="text" name="panchayat_code" id="panchayat_code" value="" required>
+            </div>
+            <div class="form-group" id="div1">
+                <label for="state_id">State</label>
+                <select  name="state_id" id="state_id" class="form-control" onclick="loadDistrict()">
+                    <option value="0">Select State</option>
+                    {% for s in state_list%}
+                        <option value="{{s.id}}">{{s.state_name}}({{s.state_code}})</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="form-group" id="div2">
+                <label for="district_id">District</label>
+                <select  name="district_id" id="district_id" class="form-control" onchange="loadBlock()">
+                    <option value="0">Select District</option>
+                </select>
+            </div>
+            <div class="form-group" id="div3">
+                <label for="block_id">Block</label>
+                <select  name="block_id" id="block_id" class="form-control" >
+                    <option value="0">Select Block</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="addr">Address :</label>
+                <textarea class="form-control" name="addr" id="addr" value="" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="pin">Pincode :</label>
+                <input class="form-control" type="text" name="pin" id="pin" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="pre_name">President Name :</label>
+                <input class="form-control" type="text" name="pre_name" id="pre_name" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="pre_contact">President Contact :</label>
+                <input class="form-control" type="text" name="pre_contact" id="pre_contact" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="pre_email">President Email :</label>
+                <input class="form-control" type="text" name="pre_email" id="pre_email" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="sec_name">Secretary Name :</label>
+                <input class="form-control" type="text" name="sec_name" id="sec_name" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="sec_contact">Secretary Contact :</label>
+                <input class="form-control" type="text" name="sec_contact" id="sec_contact" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="sec_email">Secretary Email :</label>
+                <input class="form-control" type="text" name="sec_email" id="sec_email" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="ward_count">No. of Wards :</label>
+                <input class="form-control" type="text" name="ward_count" id="ward_count" value="" required>
+            </div>
+            <button type="submit" class="btn btn-info" id="bt" name="bt">Add</button>
+            <button type="reset" class="btn btn-info" id="rt" name="rt">Clear</button>
+        </form>
+             </div>
+             <div class="col-md-4">
+            </div>
+         </div>
+     </div>
+    <h3>{{msg}}</h3>
+</center>
+<script>
+function loadDistrict() {
+  var sel = document.getElementById('state_id');
+  //alert(sel.value)
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if ( this.status == 200) {
+      document.getElementById("div2").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", "../myapp/district_list_view?state_id="+sel.value, true);
+  xhttp.send();
+}
+function loadBlock() {
+  var sel = document.getElementById('district_id');
+  alert('block'+sel.value)
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if ( this.status == 200) {
+      document.getElementById("div3").innerHTML =
+      this.responseText;
+    }
+  };
+  xhttp.open("GET", "../myapp/block_list_view?district_id="+sel.value, true);
+  xhttp.send();
+}
+</script>
+
+{% endblock %}

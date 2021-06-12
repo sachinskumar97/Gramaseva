@@ -1,0 +1,7 @@
+<label for="block_id">Block</label>
+<select  name="block_id" id="block_id" class="form-control" onchange="loadPanchayat()">
+    <option value="0">Select Block</option>
+    {% for b in block_list%}
+    <option value="{{b.id}}">{{b.block_name}}({{b.block_code}})</option>
+    {% endfor %}
+</select>
