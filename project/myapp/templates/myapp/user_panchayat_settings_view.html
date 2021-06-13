@@ -1,0 +1,55 @@
+{% extends 'myapp/user_base.html' %}
+{% load static %}
+{% block title %}Block Panchayat Details{% endblock %}
+{% block body %}
+<center>
+    <h1>Block Panchayat Details</h1>
+    <div class="container">
+    <form role="form" name="frm" action="" method="post">
+        {% csrf_token %}
+         <input class="form-control" type="hidden" name="district_id" id="district_id" value="{{district_id}}" required>
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>panchayat_name</th>
+                <th>panchayat_code</th>
+                <th>addr</th>
+                <th>pin</th>
+                <th>pre_name</th>
+                <th>pre_contact</th>
+                <th>pre_email</th>
+                <th>sec_name</th>
+                <th>sec_contact</th>
+                <th>sec_email</th>
+                <th>ward_count</th>
+
+            </tr>
+            </thead>
+            {% for pd in panchayat_list %}
+            <tbody>
+            <tr>
+                <td>{{ pd.id }}</td>
+                <td>{{ pd.panchayat_name }}</td>
+                <td>{{ pd.panchayat_code }}</td>
+                <td>{{ pd.addr }}</td>
+                <td>{{ pd.pin }}</td>
+                <td>{{ pd.pre_name }}</td>
+                <td>{{ pd.pre_contact }}</td>
+                <td>{{ pd.pre_email }}</td>
+                <td>{{ pd.sec_name }}</td>
+                <td>{{ pd.sec_contact }}</td>
+                <td>{{ pd.sec_email }}</td>
+                <td>{{ pd.ward_count }}</td>
+
+
+            </tr>
+            <tbody>
+            {% endfor %}
+        </table>
+
+    </form>
+    </div>
+    <h3>{{msg}}</h3>
+</center>
+{% endblock %}

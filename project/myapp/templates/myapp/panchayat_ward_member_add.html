@@ -1,0 +1,54 @@
+{% extends 'myapp/panchayat_base.html' %}
+{% load static %}
+{% block title %}Panchayat Ward Member Add{% endblock %}
+{% block body %}
+<center>
+    <h1>Panchayat Ward Member Add</h1>
+     <div class="container">
+        <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+
+        <form role="form" name="frm" action="{% url 'panchayat_ward_member_add'%}" method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="member_name">Member Name :</label>
+                <input class="form-control" type="text" name="member_name" id="member_name" value="" title="only alphabet with space is allowed"  pattern="[a-zA-Z ]+" oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();}"  required>
+            </div>
+            <div class="form-group">
+                <label for="ward_no">Ward Code :</label>
+                <select  name="ward_no" id="ward_no" class="form-control" >
+                    {%for w in ward_list %}
+                    <option value="{{w}}">{{w}}</option>
+                    {% endfor%}
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="addr">Address :</label>
+                <textarea class="form-control" name="addr" id="addr" value="" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="pin">Pincode :</label>
+                <input class="form-control" type="text" name="pin" id="pin" value="" pattern="[0-9]{6}" maxlength="6" oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();} " required >
+            </div>
+            <div class="form-group">
+                <label for="contact">Phone No:</label>
+                <input class="form-control" type="text" name="contact" id="contact" value="" title="Please enter a valid phone number with 10 digit" pattern="^(\+91[\-\s]?)?[0]?(91)?[6789]\d{9}$" maxlength="10" oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();}"   required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email :</label>
+                <input class="form-control" type="email" name="email" id="email" value="" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  required oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();}">
+            </div>
+            <button type="submit" class="btn btn-info" id="bt" name="bt">Add</button>
+            <button type="reset" class="btn btn-info" id="rt" name="rt">Clear</button>
+        </form>
+             </div>
+             <div class="col-md-4">
+            </div>
+         </div>
+     </div>
+    <h3>{{msg}}</h3>
+</center>
+{% endblock %}

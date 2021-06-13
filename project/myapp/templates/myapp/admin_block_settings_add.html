@@ -1,0 +1,35 @@
+{% extends 'myapp/admin_base.html' %}
+{% load static %}
+{% block title %}District Block Add{% endblock %}
+{% block body %}
+<center>
+    <h1>District Block Add</h1>
+     <div class="container">
+        <div class="row">
+        <div class="col-md-4">
+        </div>
+        <div class="col-md-4">
+
+        <form role="form" name="frm" action="{% url 'admin_block_settings_add'%}" method="post">
+            {% csrf_token %}
+            <input class="form-control" type="hidden" name="district_id" id="district_id" value="{{district_id}}" required>
+
+            <div class="form-group">
+                <label for="block_name">District Block Name :</label>
+                <input class="form-control" type="text" name="block_name" id="block_name" value="" required>
+            </div>
+            <div class="form-group">
+                <label for="block_code">Block Code :</label>
+                <input class="form-control" type="text" name="block_code" id="block_code" value="" required>
+            </div>
+            <button type="submit" class="btn btn-info" id="bt" name="bt">Add</button>
+            <button type="reset" class="btn btn-info" id="rt" name="rt">Clear</button>
+        </form>
+             </div>
+             <div class="col-md-4">
+            </div>
+         </div>
+     </div>
+    <h3>{{msg}}</h3>
+</center>
+{% endblock %}

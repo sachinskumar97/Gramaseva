@@ -1,0 +1,7 @@
+<label for="panchayat_id">Panchayat</label>
+<select  name="panchayat_id" id="panchayat_id" class="form-control" >
+    <option value="0">Select Panchayat</option>
+    {% for p in panchayat_list%}
+    <option value="{{p.id}}">{{p.panchayat_name}}({{p.panchayat_code}})</option>
+    {% endfor %}
+</select>

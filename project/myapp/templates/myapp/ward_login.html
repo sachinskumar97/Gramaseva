@@ -1,0 +1,29 @@
+{% extends 'myapp/base.html' %}
+{% load static %}
+{% block title %} Ward Member Login {% endblock %}
+{% block body %}
+<body>
+    <center>
+    <h1>Ward Member Login</h1>
+    <div class="container">
+    <form role="form" name="frm" method="post" action="{% url 'ward_login' %}" >
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="un">Email Id:</label>
+            <input class="form-control" type="text" name="un" id="un" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  required oninput="if (typeof this.reportValidity === 'function') {this.reportValidity();}">
+        </div>
+        <div class="form-group">
+            <label for="pwd">Password :</label>
+            <input class="form-control" type="password" name="pwd" id="pwd">
+        </div>
+        <button type="submit" class="btn btn-info" id="bt" name="bt">Login</button>
+        <button type="reset" class="btn btn-info" id="rt" name="rt">Reset</button>
+
+    </form>
+    </div>
+        {% autoescape off %}{{ msg1 }}{% endautoescape %}
+    </center>
+
+
+</body>
+{% endblock %}

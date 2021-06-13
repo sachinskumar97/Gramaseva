@@ -1,0 +1,59 @@
+{% extends 'myapp/admin_base.html' %}
+{% load static %}
+{% block title %}Block Panchayat Details{% endblock %}
+{% block body %}
+<center>
+    <h1>Block Panchayat Details</h1>
+    <div class="container">
+    <form role="form" name="frm" action="" method="post">
+        {% csrf_token %}
+         <input class="form-control" type="hidden" name="district_id" id="district_id" value="{{district_id}}" required>
+        <table class="table table-striped table-bordered">
+            <thead>
+            <tr>
+                <th>SL</th>
+                <th>Panchayat Name</th>
+                <th>Panchayat Code</th>
+                <th>ADDRESS</th>
+                <th>PINCODE</th>
+                <th>PRESIDENT</th>
+                <th>Contact no</th>
+                <th>Email</th>
+                <th>SECRETARY</th>
+                <th>Contact no</th>
+                <th>Email</th>
+                <th>Ward Count</th>
+                <th>Action</th>
+            </tr>
+            </thead>
+            {% for pd in panchayat_list %}
+            <tbody>
+            <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ pd.panchayat_name }}</td>
+                <td>{{ pd.panchayat_code }}</td>
+                <td>{{ pd.addr }}</td>
+                <td>{{ pd.pin }}</td>
+                <td>{{ pd.pre_name }}</td>
+                <td>{{ pd.pre_contact }}</td>
+                <td>{{ pd.pre_email }}</td>
+                <td>{{ pd.sec_name }}</td>
+                <td>{{ pd.sec_contact }}</td>
+                <td>{{ pd.sec_email }}</td>
+                <td>{{ pd.ward_count }}</td>
+                <td>
+                    <a href="../admin_panchayat_settings_edit?id={{ pd.id }}&block_id={{block_id}}">Edit</a> |
+                    <a href="../admin_panchayat_settings_delete?id={{ pd.id }}&block_id={{block_id}}">Delete</a>|
+                    <a href="../admin_panchayat_settings_edit?id={{ pd.id }}&block_id={{block_id}}">Members</a>
+                </td>
+
+            </tr>
+            <tbody>
+            {% endfor %}
+        </table>
+         <a href="../admin_panchayat_settings_add?block_id={{block_id}}">Add Block Panchayat</a></h1>
+    </form>
+    </div>
+    <h3>{{msg}}</h3>
+</center>
+{% endblock %}
